@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Uploader</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{ font-family:'Inter', sans-serif; background:#f7f8fa; color:#1a1f27; }
+  .card{ background:#fff; border:1px solid #e4e7ec; }
+  .btn{ transition: background .15s ease, border-color .15s ease; }
+  .btn-copy{ border:1px solid #d7dbe0; }
+  .btn-copy:hover{ background:#f0f2f5; }
+  .btn-primary{ background:#1a1f27; color:#fff; }
+  .btn-primary:hover{ background:#333a45; }
+  html.dark body{ background:#12151a; color:#eaedf1; }
+  html.dark .card{ background:#1a1e26; border-color:#2a2f38; }
+  html.dark .btn-copy{ border-color:#333a45; color:#c7ccd3; }
+  html.dark .btn-copy:hover{ background:#242933; }
+  html.dark .btn-primary{ background:#eaedf1; color:#12151a; }
+  html.dark .btn-primary:hover{ background:#cfd4db; }
+  html.dark .subtle{ color:#8b93a0; }
+  html.dark .divide-y > * + *{ border-color:#2a2f38; }
+  #toast-wrap{ position:fixed; bottom:20px; right:20px; z-index:100; display:flex; flex-direction:column; gap:8px; }
+  .toast{ animation: toastIn .2s ease both; }
+  @keyframes toastIn{ from{opacity:0; transform: translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-thumb{ background:#d7dbe0; border-radius:8px; }
+  html.dark ::-webkit-scrollbar-thumb{ background:#333a45; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-[#e4e7ec] dark:bg-[#12151a]/90" style="border-color:inherit">
+  <div class="max-w-5xl mx-auto px-5 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-2 font-semibold">
+      <span class="h-6 w-6 rounded bg-[#1a1f27] dark:bg-[#eaedf1] flex items-center justify-center">
+        <svg class="h-3.5 w-3.5 text-white dark:text-[#12151a]" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </span>
+      Nexus Uploader
+    </div>
+    <div class="flex items-center gap-2">
+      <input id="global-search" type="text" placeholder="Searchâ¦" class="hidden sm:block text-sm border border-[#d7dbe0] rounded-md px-3 h-8 w-52 bg-transparent outline-none dark:border-[#2a2f38]">
+      <button id="theme-toggle" class="btn btn-copy h-8 w-8 rounded-md flex items-center justify-center text-sm">ð</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-5 py-8">
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-xl font-semibold">Channels & Uploads</h1>
+    <span id="results-count" class="subtle text-sm text-[#6b7280]"></span>
+  </div>
+
+  <div id="channels-wrap" class="space-y-8"></div>
+
+  <div id="no-results" class="hidden text-center py-16 card rounded-lg">
+    <p class="font-medium">No matches found</p>
+    <p class="subtle text-sm text-[#6b7280] mt-1">Try a different search term.</p>
+  </div>
+
+</main>
+
+<div id="toast-wrap"></div>
+
+<script>
+const channels = [
+  { name:"Verse Kids Tv", pfp:"https://i.pravatar.cc/100?img=47", subs:"128K" },
+  { name:"Rainbow Songs For Kids", pfp:"https://i.pravatar.cc/100?img=32", subs:"241K" },
+  { name:"emmys rhymes club TV", pfp:"https://i.pravatar.cc/100?img=56", subs:"87K" },
+  { name:"Tiny Star tunes TV", pfp:"https://i.pravatar.cc/100?img=25", subs:"64K" },
+];
+
+const uploads = [
+  { channel:"Verse Kids Tv", status:"live", title:"Five Colorful Elephants ðð | Learn Colors Song for Kids & Toddlers 2024 | Fun 3D Cartoon", desc:"ð Join five colorful little elephants in this happy 3D color song! They march, play, teach colors like red, blue, yellow, green, purple, pink. Fun for kids learning colors, friendship, teamwork. ð¶ Perfect for toddlers, preschool, early education, family time. ðµ Sing, clap, enjoy the parade! ð Like, share, subscribe for more kids songs. #LearnColorsSong #FiveElephantsRhyme #ColorLearningForKids #ToddlerColors2024 #PreschoolEducation #KidsCartoonSongs #ElephantColorParade #NurseryRhymesForBabies #3DKidsAnimation #EducationalColors #UKKidsLearning #USAToddlerSongs #BabyColorVideos #FunLearningSongs #KindergartenColors" },
+  { channel:"Verse Kids Tv", status:"live", title:"Baby Shark Family Dance ð  | Cute Ocean Nursery Song", desc:"Sing and dance with Baby Shark and friends in this colorful UK-style nursery rhyme adventure! ðð¦ Fun music, happy sea animals, and playful learning for toddlers and preschool kids. #BabyShark #NurseryRhymes #KidsSongs #ToddlerSongs #BabySharkRePreschoolLearningmix #KidsAnimation #CocomelonStyle" },
+  { channel:"Verse Kids Tv", status:"live", title:"Cute Animals Learn 123 ð®ð¢ | Fun Counting Song for Toddlers | Farm Nursery Rhyme", desc:"ð®ð¢ Cute animals teach counting 1-3 on the farm! Fun sounds, colors, animations for kids learning numbers. Like, subscribe for more learning rhymes. #CountingSongToddlers #FarmCountingRhyme #KidsNumbers2024 #PreschoolAnimalSongs #ToddlerEducationVideos #3DFarmAnimation #BabyNumbersLearningPerfect for toddlers, preschool, early education. â¨ Visual math, animal fun. ðµ Sing along! ð #EducationalNursery #UKPreschoolSongs #USAKidsCounting #Animal123 #FunForToddlers #KindergartenNumbers #LearnWithAnimals #SafeKidsSongs" },
+
+  { channel:"Rainbow Songs For Kids", status:"live", title:"Meri Gaiya || à¤®à¥à¤°à¥ à¤à¥à¤¯à¤¾ à¤à¤¤à¥ à¤¹à¥à¥¤ || Kids favorite Hindi Rhymes || Rainbow ð Songs for kids ||", desc:"Welcome to Rainbow Songs for Kids! Enjoy our new rhyme, 'Meri Gaiya Ati Hai,' a delightful Hindi song celebrating the gentle arrival of our beloved cow, Gaiya. This charming nursery rhyme introduces young children to the warmth and simplicity of rural life, fostering a love for animals and nature. Join us in singing along and experiencing the joy of this traditional melody! Subscribe for more beautiful rhymes, songs, and educational videos for kids. #MeriGaiyaAtiHai #HindiRhymes #NurseryRhymes #KidsSongs #ChildrenSongs #KidsLearning #IndianCulture #AnimalRhymes #FarmAnimals #EducationalSongs #TraditionalSongs #KidsPoems #HindiSongs #RainbowSongsForKids #KidsEntertainment #LearningWithFun #KidsVideos" },
+  { channel:"Rainbow Songs For Kids", status:"live", title:"ðâ¨ Learn A to Z Alphabet | Easy & Fun Learning Rhyme for Kids ð¶ð¤", desc:"ð Welcome to our fun and easy A to Z Alphabet Learning Rhyme! ð°ï¸â¡ï¸ð This video is specially made for kids to learn the English alphabet in the most simple and joyful way. ðâ¨ Through colorful animations, catchy rhymes, and playful music, children can easily recognize each letter, from A for Apple ð to Z for Zebra ð¦. Perfect for preschoolers, toddlers, and kindergarten learners, this rhyme makes early learning engaging and full of fun. ð£ð Great for: Alphabet recognition, Phonics introduction, Early childhood education, Fun classroom or home learning. Sing, dance, and learn with us as we explore the alphabet together! ð¶ð¡ #AlphabetSong #LearnABC #KidsLearning #ABCLearning #AlphabetRhyme #ABCSong #ABCLearningForKids #ToddlerLearning #KidsSongs #PreschoolLearning #KindergartenSongs #EducationalSongs #ABCLearningSong #NurseryRhyme #LearnABCTogether #KidsVideos #EasyAlphabetLearning" },
+  { channel:"Rainbow Songs For Kids", status:"live", title:"ðð£ \"One, Two, Three, Four, Five | Catching a Fish Alive!\" ðð¢", desc:"A magical river adventure! A cute turtle swims while five colorful fish follow behind. ð¢ð ð A cheerful girl in a boat tries to catch a fish but soon releases it back into the water. ð¶ð¦ But why? Two curious kids ask her, and she shows them where the fish bit her! ðï¸ð² A fun-filled, whimsical 3D animated story perfect for kids! ð¥ð #KidsLearning #NurseryRhymes #FishingForKids #USAKids #KidsEducation #FunForKids #CatchAndRelease #ToddlerFun #PreschoolLearning #AnimatedStories #3DAnimation #AmericanKids" },
+
+  { channel:"emmys rhymes club TV", status:"live", title:"Traktor TÃ¶ff TÃ¶ff ð | Lustiges Kinderlied Ã¼ber den Bauernhof | Deutsches Kinderlied zum Mitsingen", desc:"Willkommen zu âTraktor TÃ¶ff TÃ¶ff\" â einem frÃ¶hlichen deutschen Kinderlied Ã¼ber den Bauernhof! ðð¾ Begleite den sÃ¼Ãen roten Traktor und den freundlichen Bauern auf ein lustiges Abenteuer Ã¼ber Felder, durch Matsch und bis zum Sonnenuntergang. Dieses Lied ist perfekt zum Mitsingen, Tanzen und Lernen fÃ¼r Kleinkinder und Vorschulkinder. ðµ Mit eingÃ¤ngiger Melodie ð Bunte 3D-Animation ð¶ Ideal fÃ¼r Kindergarten & Zuhause Abonniere unseren Kanal fÃ¼r mehr lustige Kinderlieder auf Deutsch! ð #Traktor #Kinderlied #Kinderlieder #Bauernhof #Deutschlernen #LiedFÃ¼rKinder #Kleinkind #Kindergarten #Mitmachlied #FahrzeugeFÃ¼rKinder #NurseryRhymesGerman #GermanKidsSong #CartoonKinderlied #Lernvideo" },
+  { channel:"emmys rhymes club TV", status:"live", title:"Vegetables Song for Kids | Learn Vegetable Names | Nursery Rhyme ð¥¦ð¥ð | Healthy Eating Song", desc:"In this colorful 3D animated rhyme, friendly vegetables like Carrot, Tomato, Broccoli, Spinach, and Cucumber come to life, dancing and singing to teach little ones the importance of healthy eating. Perfect for preschool, kindergarten, and early learning! ð¤ Lyrics Highlights: \"Carrot, carrot, orange and brightâ¦\" \"Veggies, veggies, eat them allâ¦\" \"Broccoli, broccoli, little treeâ¦\" \"Pepper, pepper, red and greenâ¦\" Why Kids Will Love It: Fun and easy-to-remember melody, Bright 3D cartoon animation, Teaches healthy habits in a playful way. Educational Topics: Vegetable names and colors, Healthy eating habits." },
+  { channel:"emmys rhymes club TV", status:"live", title:"Traktor TÃ¶ff TÃ¶ff ð | Lustiges Kinderlied Ã¼ber den Bauernhof | Deutsches Kinderlied zum Mitsingen", desc:"Willkommen zu âTraktor TÃ¶ff TÃ¶ff\" â einem frÃ¶hlichen deutschen Kinderlied Ã¼ber den Bauernhof! ðð¾ Begleite den sÃ¼Ãen roten Traktor und den freundlichen Bauern auf ein lustiges Abenteuer Ã¼ber Felder, durch Matsch und bis zum Sonnenuntergang. Dieses Lied ist perfekt zum Mitsingen, Tanzen und Lernen fÃ¼r Kleinkinder und Vorschulkinder. ðµ Mit eingÃ¤ngiger Melodie ð Bunte 3D-Animation ð¶ Ideal fÃ¼r Kindergarten & Zuhause Abonniere unseren Kanal fÃ¼r mehr lustige Kinderlieder auf Deutsch! ð #Traktor #Kinderlied #Kinderlieder #Bauernhof #Deutschlernen #LiedFÃ¼rKinder #Kleinkind #Kindergarten #Mitmachlied #FahrzeugeFÃ¼rKinder #NurseryRhymesGerman #GermanKidsSong #CartoonKinderlied #Lernvideo" },
+
+  { channel:"Tiny Star tunes TV", status:"live", title:"ð Baby Coco and the Egg ð¥ || Red Toy Car ðâ¨ð¶", desc:"Join Baby Coco ð¶ in his bright yellow rumper as he plays joyfully with a shiny red toy car ð in the sunny farmhouse yard ðð¡. Surrounded by friendly animals ððð¦ð, Coco giggles, claps, and shouts \"Coco-wow!\" ð as the car zooms across the grass. A fun, colorful, and magical farm adventure full of laughter and happiness for kids! ð¶ð #BabyCoco #KidsCartoon #FarmhouseFun #ToyCarAdventure #AnimatedBaby #NurseryRhymes #KidsStory #CocoWow #BabyFun #kidsentertainment" },
+  { channel:"Tiny Star tunes TV", status:"live", title:"Wo ist denn mein Papa? â­ Lustiges & Einfaches Kinderlied zum Mitsingen | Deutsch Rhyme Song", desc:"Entdecke das sÃ¼Ãe Kinderlied âWo ist denn mein Papa?\" â ein frÃ¶hlicher, einfacher Reim, perfekt zum Mitsingen fÃ¼r Vorschulkinder! ð¥â¨ Dieses Lied begleitet kleine Kinder auf einer liebevollen Suche nach Papa und endet in einer frÃ¶hlichen Wiedervereinigung. Ideal fÃ¼r Kindergarten, Vorschule oder zu Hause! Highlights: Einfache, wiederholende Strophen fÃ¼r Kinder, Perfekt zum Mitsingen & Mitmachen, FÃ¶rdert Sprache, Rhythmus & Freude am Singen, Liebevolle Geschichte Ã¼ber Familie & Zusammenhalt. Sing mit deinem Kind mit und erlebt gemeinsam SpaÃ! Vergiss nicht, unseren Kanal zu abonnieren fÃ¼r mehr kinderfreundliche Lieder & Reime auf Deutsch! #Kinderlied #DeutschFÃ¼rKinder #Mitsingen #KindergartenLied #Vorschule #Familienlied #PapaLied #Kinderreime #Kindersong #LustigesKinderlied #ReimFÃ¼rKinder #KinderRhyme #SingenMitKindern #FrÃ¶hlichesKinderlied #KinderUnterhaltung" },
+  { channel:"Tiny Star tunes TV", status:"live", title:"FÃ¼nf bunte FrÃ¶sche ð¸ð Farben lernen | Kinderlied Deutsch", desc:"Willkommen zu unserem frÃ¶hlichen Kinderlied âTanz, kleiner Frosch!\" ð¸ð¶ Der kleine Frosch hÃ¼pft, dreht sich im Kreis und klatscht in die HÃ¤nde! ðð Dieses lustige Lied ist perfekt fÃ¼r Kleinkinder und Kindergartenkinder, zum Mitsingen, Tanzen und Lernen. Mit sÃ¼Ãer Musik, bunten Animationen und einem tanzenden Frosch macht Lernen richtig SpaÃ! ðâ¨ Ideal fÃ¼r Kinder von 2 bis 6 Jahren. Perfekt fÃ¼r Kindergarten & Zuhause. SpaÃiges Bewegungslied. Vergesst nicht zu liken ð, zu abonnieren ð und mit uns zu tanzen! #Kinderlied #FroschLied #TanzKinderlied #KinderliederDeutsch #KindergartenLied #Mitmachlied #KinderReime #KinderSong #DeutschLernenKinder #LustigesKinderlied #Frosch #BabyLieder #KinderMusik #KinderAnimation #KinderVideo #SingMit #HÃ¼pfenUndTanzen #KinderliedZumMitsingen #FqroschTanz #DeutschFÃ¼rKinder" },
+];
+
+function escapeHtml(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function statusDot(status){
+  return status === 'live'
+    ? `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Live</span>`
+    : `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-amber-600 dark:text-amber-400"><span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>Scheduled</span>`;
+}
+
+function render(filter=''){
+  const wrap = document.getElementById('channels-wrap');
+  const q = filter.trim().toLowerCase();
+  let totalShown = 0;
+  let html = '';
+
+  channels.forEach(c => {
+    const vids = uploads.filter(u => u.channel === c.name && (!q || u.title.toLowerCase().includes(q) || u.desc.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)));
+    if(vids.length === 0) return;
+    totalShown += vids.length;
+
+    html += `
+      <div class="card rounded-lg overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-[#e4e7ec]" style="border-color:inherit">
+          <img src="${c.pfp}" class="h-8 w-8 rounded-full object-cover" alt="${escapeHtml(c.name)}">
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-sm truncate">${escapeHtml(c.name)}</p>
+          </div>
+          <span class="subtle text-xs text-[#6b7280]">${vids.length} video${vids.length>1?'s':''}</span>
+        </div>
+        <div class="divide-y divide-[#e4e7ec]">
+          ${vids.map(u => videoRow(u)).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  wrap.innerHTML = html;
+  document.getElementById('results-count').textContent = `${totalShown} video${totalShown!==1?'s':''}`;
+  document.getElementById('no-results').classList.toggle('hidden', totalShown !== 0);
+
+  wrap.querySelectorAll('.copy-title').forEach(b => b.addEventListener('click', () => copyText(b.dataset.text, 'Title copied')));
+  wrap.querySelectorAll('.copy-desc').forEach(b => b.addEventListener('click', () => copyText(b.dataset.text, 'Description copied')));
+}
+
+function videoRow(u){
+  return `
+    <div class="px-4 py-3">
+      <div class="flex items-center justify-between gap-2 mb-2">
+        ${statusDot(u.status)}
+      </div>
+      <p class="text-sm font-medium leading-snug mb-2">${escapeHtml(u.title)}</p>
+      <div class="flex gap-2">
+        <button class="copy-title btn btn-primary rounded-md text-xs font-medium px-3 h-8" data-text="${escapeHtml(u.title)}">Copy Title</button>
+        <button class="copy-desc btn btn-copy rounded-md text-xs font-medium px-3 h-8" data-text="${escapeHtml(u.desc)}">Copy Description</button>
+      </div>
+    </div>
+  `;
+}
+
+function copyText(text, label){
+  const ta = document.createElement('textarea');
+  ta.value = text.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+  showToast(label);
+}
+
+function showToast(msg){
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = 'toast card rounded-md px-3 py-2 text-sm shadow-lg flex items-center gap-2';
+  t.innerHTML = `<span class="text-emerald-500">â</span> ${msg}`;
+  wrap.appendChild(t);
+  setTimeout(() => {
+    t.style.transition = 'opacity .2s ease';
+    t.style.opacity = '0';
+    setTimeout(() => t.remove(), 200);
+  }, 1800);
+}
+
+document.getElementById('global-search').addEventListener('input', (e) => render(e.target.value));
+document.getElementById('theme-toggle').addEventListener('click', () => document.documentElement.classList.toggle('dark'));
+
+render();
+</script>
+</body>
+</html>
