@@ -7,472 +7,259 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg: #f5f6fa;
-  --surface: #ffffff;
-  --border: #e4e7ee;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --live-dot: #10b981;
-  --live-text: #059669;
-  --btn-bg: #f9fafb;
-  --btn-border: #d1d5db;
-  --btn-hover: #f3f4f6;
-  --toast-bg: #ffffff;
-  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,.1);
-  --r: 12px;
-  --r-sm: 8px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f6fa;--surface:#fff;--border:#e4e7ee;
+  --txt:#111827;--txt2:#6b7280;--txt3:#9ca3af;
+  --acc:#4f46e5;--acc2:#4338ca;
+  --live:#10b981;--live2:#059669;
+  --bbg:#f9fafb;--bbd:#d1d5db;--bbh:#f3f4f6;
+  --tbg:#fff;
+  --sh:0 1px 3px rgba(0,0,0,.08);
+  --sh2:0 4px 12px rgba(0,0,0,.1);
+  --r:12px;--rs:8px
 }
-
-html.dark {
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --border: #252836;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --live-dot: #34d399;
-  --live-text: #34d399;
-  --btn-bg: #252836;
-  --btn-border: #334155;
-  --btn-hover: #2d3148;
-  --toast-bg: #1e2130;
-  --shadow: 0 1px 3px rgba(0,0,0,.3);
-  --shadow-md: 0 4px 20px rgba(0,0,0,.4);
+html.dark{
+  --bg:#0f1117;--surface:#1a1d27;--border:#252836;
+  --txt:#f1f5f9;--txt2:#94a3b8;--txt3:#64748b;
+  --acc:#6366f1;--acc2:#818cf8;
+  --live:#34d399;--live2:#34d399;
+  --bbg:#252836;--bbd:#334155;--bbh:#2d3148;
+  --tbg:#1e2130;
+  --sh:0 1px 3px rgba(0,0,0,.3);
+  --sh2:0 4px 20px rgba(0,0,0,.4)
 }
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text-primary);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  transition: background .2s, color .2s;
-}
-
-/* NAVBAR */
-.navbar {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-.nav-inner {
-  max-width: 900px; margin: 0 auto;
-  padding: 0 16px; height: 58px;
-  display: flex; align-items: center; gap: 12px;
-}
-.logo {
-  display: flex; align-items: center; gap: 9px;
-  font-weight: 700; font-size: 15px;
-  color: var(--text-primary); text-decoration: none; flex-shrink: 0;
-}
-.logo-icon {
-  width: 30px; height: 30px; border-radius: 7px;
-  background: var(--accent);
-  display: flex; align-items: center; justify-content: center;
-}
-.logo-icon svg { width: 14px; height: 14px; fill: #fff; }
-
-.search-box {
-  flex: 1; position: relative; max-width: 300px; margin-left: auto;
-}
-.search-box svg {
-  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-  color: var(--text-muted); pointer-events: none; flex-shrink: 0;
-}
-#search-input {
-  width: 100%; height: 36px;
-  padding: 0 12px 0 32px;
-  font-size: 13px; font-family: inherit;
-  border: 1px solid var(--border); border-radius: var(--r-sm);
-  background: var(--bg); color: var(--text-primary);
-  outline: none;
-}
-#search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
-#search-input::placeholder { color: var(--text-muted); }
-
-#theme-btn {
-  width: 36px; height: 36px; flex-shrink: 0;
-  border: 1px solid var(--border); border-radius: var(--r-sm);
-  background: var(--btn-bg); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
-}
-#theme-btn:hover { background: var(--btn-hover); }
-
-/* MAIN */
-main { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
-
-.page-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 20px; gap: 10px;
-}
-.page-title { font-size: 19px; font-weight: 700; letter-spacing: -.3px; }
-.count-badge {
-  font-size: 12px; font-weight: 600; color: var(--text-secondary);
-  background: var(--btn-bg); border: 1px solid var(--border);
-  border-radius: 20px; padding: 3px 10px; white-space: nowrap;
-}
-
-/* CHANNEL CARDS */
-.channels { display: flex; flex-direction: column; gap: 18px; }
-
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow);
-}
-.card-head {
-  display: flex; align-items: center; gap: 11px;
-  padding: 13px 16px; border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-.ch-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--btn-bg); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; flex-shrink: 0;
-}
-.ch-name { font-size: 13.5px; font-weight: 600; }
-.ch-subs { font-size: 11.5px; color: var(--text-secondary); margin-top: 1px; }
-.ch-count {
-  margin-left: auto; font-size: 11.5px; font-weight: 600;
-  color: var(--text-secondary); background: var(--btn-bg);
-  border: 1px solid var(--border); border-radius: 20px; padding: 2px 9px;
-  white-space: nowrap; flex-shrink: 0;
-}
-
-/* VIDEO ROWS */
-.vrow {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.vrow:last-child { border-bottom: none; }
-
-.live-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 11px; font-weight: 600; color: var(--live-text);
-  background: rgba(16,185,129,.1); border-radius: 20px;
-  padding: 2px 8px; margin-bottom: 7px;
-}
-html.dark .live-badge { background: rgba(52,211,153,.1); }
-.live-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--live-dot); animation: pulse 2s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
-
-.vtitle {
-  font-size: 13.5px; font-weight: 500; line-height: 1.5;
-  color: var(--text-primary); margin-bottom: 10px;
-}
-
-/* Description */
-.desc-text {
-  font-size: 12px; color: var(--text-secondary); line-height: 1.65;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden; white-space: pre-wrap; word-break: break-word;
-}
-.desc-text.open { display: block; -webkit-line-clamp: unset; }
-.desc-toggle {
-  font-size: 11.5px; font-weight: 500; color: var(--accent);
-  background: none; border: none; cursor: pointer;
-  padding: 5px 0 10px; font-family: inherit; display: block;
-}
-.desc-toggle:hover { color: var(--accent-hover); }
-
-/* Buttons */
-.btn-row { display: flex; flex-wrap: wrap; gap: 7px; }
-.btn {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12.5px; font-weight: 600; font-family: inherit;
-  height: 34px; padding: 0 13px; border-radius: var(--r-sm);
-  cursor: pointer; border: none; outline: none;
-  transition: background .12s, transform .1s;
-  white-space: nowrap; user-select: none; -webkit-user-select: none;
-}
-.btn:active { transform: scale(.96); }
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: var(--accent-hover); }
-.btn-secondary {
-  background: var(--btn-bg); color: var(--text-primary);
-  border: 1px solid var(--btn-border);
-}
-.btn-secondary:hover { background: var(--btn-hover); }
-.btn-ghost {
-  background: transparent; color: var(--text-secondary);
-  border: 1px solid var(--border);
-}
-.btn-ghost:hover { background: var(--btn-hover); color: var(--text-primary); }
-
-/* No results */
-#no-results {
-  display: none; text-align: center; padding: 56px 20px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); box-shadow: var(--shadow);
-}
-#no-results .nr-icon { font-size: 34px; margin-bottom: 10px; }
-#no-results .nr-title { font-size: 15px; font-weight: 600; }
-#no-results .nr-sub { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
-
-/* Toast */
-#toast-wrap {
-  position: fixed; bottom: 22px; right: 18px; z-index: 200;
-  display: flex; flex-direction: column; gap: 8px; pointer-events: none;
-}
-.toast {
-  background: var(--toast-bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 10px 15px;
-  font-size: 13px; font-weight: 500;
-  box-shadow: var(--shadow-md);
-  display: flex; align-items: center; gap: 8px;
-  animation: tin .18s ease both;
-}
-@keyframes tin { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-@media (max-width: 480px) {
-  .search-box { max-width: none; }
-  .nav-inner { padding: 0 12px; }
-  main { padding: 18px 12px 60px; }
-  .card-head { padding: 11px 12px; }
-  .vrow { padding: 13px 12px; }
-}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+.nav{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--sh)}
+.navi{max-width:900px;margin:0 auto;padding:0 16px;height:58px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--txt);text-decoration:none;flex-shrink:0}
+.lico{width:30px;height:30px;border-radius:7px;background:var(--acc);display:flex;align-items:center;justify-content:center}
+.lico svg{width:14px;height:14px;fill:#fff}
+.sbox{flex:1;position:relative;max-width:300px;margin-left:auto}
+.sbox svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--txt3);pointer-events:none}
+#si{width:100%;height:36px;padding:0 12px 0 32px;font-size:13px;font-family:inherit;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);color:var(--txt);outline:none}
+#si:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+#si::placeholder{color:var(--txt3)}
+#tb{width:36px;height:36px;flex-shrink:0;border:1px solid var(--border);border-radius:var(--rs);background:var(--bbg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
+#tb:hover{background:var(--bbh)}
+main{max-width:900px;margin:0 auto;padding:24px 16px 60px}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:10px}
+.pt{font-size:19px;font-weight:700;letter-spacing:-.3px}
+.cb{font-size:12px;font-weight:600;color:var(--txt2);background:var(--bbg);border:1px solid var(--border);border-radius:20px;padding:3px 10px;white-space:nowrap}
+.chs{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.ch{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
+.av{width:36px;height:36px;border-radius:50%;background:var(--bbg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.cn{font-size:13.5px;font-weight:600}
+.cs{font-size:11.5px;color:var(--txt2);margin-top:1px}
+.cc{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--txt2);background:var(--bbg);border:1px solid var(--border);border-radius:20px;padding:2px 9px;white-space:nowrap;flex-shrink:0}
+.vr{padding:14px 16px;border-bottom:1px solid var(--border)}
+.vr:last-child{border-bottom:none}
+.lb{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--live2);background:rgba(16,185,129,.1);border-radius:20px;padding:2px 8px;margin-bottom:7px}
+html.dark .lb{background:rgba(52,211,153,.1)}
+.ld{width:5px;height:5px;border-radius:50%;background:var(--live);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.vt{font-size:13.5px;font-weight:500;line-height:1.5;margin-bottom:10px}
+.dt{font-size:12px;color:var(--txt2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;word-break:break-word}
+.dt.open{display:block;-webkit-line-clamp:unset}
+.dtg{font-size:11.5px;font-weight:500;color:var(--acc);background:none;border:none;cursor:pointer;padding:5px 0 10px;font-family:inherit;display:block}
+.dtg:hover{color:var(--acc2)}
+.br{display:flex;flex-wrap:wrap;gap:7px}
+.btn{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;font-family:inherit;height:34px;padding:0 13px;border-radius:var(--rs);cursor:pointer;border:none;outline:none;transition:background .12s,transform .1s;white-space:nowrap;-webkit-user-select:none;user-select:none}
+.btn:active{transform:scale(.96)}
+.bp{background:var(--acc);color:#fff}
+.bp:hover{background:var(--acc2)}
+.bs{background:var(--bbg);color:var(--txt);border:1px solid var(--bbd)}
+.bs:hover{background:var(--bbh)}
+.bg{background:transparent;color:var(--txt2);border:1px solid var(--border)}
+.bg:hover{background:var(--bbh);color:var(--txt)}
+#nr{display:none;text-align:center;padding:56px 20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r)}
+#tw{position:fixed;bottom:22px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--tbg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 15px;font-size:13px;font-weight:500;box-shadow:var(--sh2);display:flex;align-items:center;gap:8px;animation:tin .18s ease both}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.sbox{max-width:none}.navi{padding:0 12px}main{padding:18px 12px 60px}.ch{padding:11px 12px}.vr{padding:13px 12px}}
 </style>
 </head>
 <body>
-
-<header class="navbar">
-  <div class="nav-inner">
+<header class="nav">
+  <div class="navi">
     <a href="#" class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
+      <div class="lico"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       Nexus Uploader
     </a>
-    <div class="search-box">
+    <div class="sbox">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="search-input" type="search" placeholder="Search videos..." autocomplete="off" spellcheck="false">
+      <input id="si" type="search" placeholder="Search videos..." autocomplete="off" spellcheck="false">
     </div>
-    <button id="theme-btn" title="Toggle theme">🌓</button>
+    <button id="tb" title="Toggle theme">🌙</button>
   </div>
 </header>
-
 <main>
-  <div class="page-header">
-    <h1 class="page-title">Channels &amp; Uploads</h1>
-    <span id="count-badge" class="count-badge"></span>
+  <div class="ph">
+    <h1 class="pt">Channels &amp; Uploads</h1>
+    <span id="cb" class="cb"></span>
   </div>
-  <div id="channels" class="channels"></div>
-  <div id="no-results">
-    <div class="nr-icon">🔍</div>
-    <p class="nr-title">No matches found</p>
-    <p class="nr-sub">Try a different search term.</p>
+  <div id="chs" class="chs"></div>
+  <div id="nr">
+    <p style="font-size:32px;margin-bottom:8px">🔍</p>
+    <p style="font-size:15px;font-weight:600">No matches found</p>
+    <p style="font-size:13px;color:var(--txt2);margin-top:4px">Try a different search term.</p>
   </div>
 </main>
-
-<div id="toast-wrap"></div>
-
+<div id="tw"></div>
 <script>
-// ── DATA ──
-var channels = [
-  { name: "Verse Kids Tv",          emoji: "🎬", subs: "128K" },
-  { name: "Rainbow Songs For Kids", emoji: "🌈", subs: "241K" },
-  { name: "emmys rhymes club TV",   emoji: "🎵", subs: "87K"  },
-  { name: "Tiny Star tunes TV",     emoji: "⭐", subs: "64K"  }
+var CH=[
+  {n:"Verse Kids Tv",e:"🎬",s:"128K"},
+  {n:"Rainbow Songs For Kids",e:"🌈",s:"241K"},
+  {n:"emmys rhymes club TV",e:"🎵",s:"87K"},
+  {n:"Tiny Star tunes TV",e:"⭐",s:"64K"}
+];
+var UP=[
+  {c:"Verse Kids Tv",t:"Five Colorful Elephants 🐘🌈 | Learn Colors Song for Kids & Toddlers 2024 | Fun 3D Cartoon",d:"🌈 Join five colorful little elephants in this happy 3D color song! They march, play, teach colors like red, blue, yellow, green, purple, pink. Fun for kids learning colors, friendship, teamwork. 👶 Perfect for toddlers, preschool, early education, family time. 🎵 Sing, clap, enjoy the parade! 👍 Like, share, subscribe for more kids songs. #LearnColorsSong #FiveElephantsRhyme #ColorLearningForKids #ToddlerColors2024 #PreschoolEducation #KidsCartoonSongs #ElephantColorParade #NurseryRhymesForBabies #3DKidsAnimation #EducationalColors #UKKidsLearning #USAToddlerSongs #BabyColorVideos #FunLearningSongs #KindergartenColors"},
+  {c:"Verse Kids Tv",t:"Baby Shark Family Dance 🦈 | Cute Ocean Nursery Song",d:"Sing and dance with Baby Shark and friends in this colorful UK-style nursery rhyme adventure! 🌊🦈 Fun music, happy sea animals, and playful learning for toddlers and preschool kids. #BabyShark #NurseryRhymes #KidsSongs #ToddlerSongs #KidsAnimation #CocomelonStyle"},
+  {c:"Verse Kids Tv",t:"Cute Animals Learn 123 🐮🔢 | Fun Counting Song for Toddlers | Farm Nursery Rhyme",d:"🐮🔢 Cute animals teach counting 1-3 on the farm! Fun sounds, colors, animations for kids learning numbers. Like, subscribe for more learning rhymes. #CountingSongToddlers #FarmCountingRhyme #KidsNumbers2024 #PreschoolAnimalSongs #ToddlerEducationVideos #3DFarmAnimation #BabyNumbersLearning Perfect for toddlers, preschool, early education. ✨ Visual math, animal fun. 🎵 Sing along! 👍 #EducationalNursery #UKPreschoolSongs #USAKidsCounting #Animal123 #FunForToddlers #KindergartenNumbers #LearnWithAnimals #SafeKidsSongs"},
+  {c:"Rainbow Songs For Kids",t:"Meri Gaiya || मेरी गैया आती है। || Kids favorite Hindi Rhymes || Rainbow 🌈 Songs for kids ||",d:"Welcome to Rainbow Songs for Kids! Enjoy our new rhyme, Meri Gaiya Ati Hai, a delightful Hindi song celebrating the gentle arrival of our beloved cow, Gaiya. This charming nursery rhyme introduces young children to the warmth and simplicity of rural life, fostering a love for animals and nature. Join us in singing along and experiencing the joy of this traditional melody! Subscribe for more beautiful rhymes, songs, and educational videos for kids. #MeriGaiyaAtiHai #HindiRhymes #NurseryRhymes #KidsSongs #ChildrenSongs #KidsLearning #IndianCulture #AnimalRhymes #FarmAnimals #EducationalSongs #TraditionalSongs #KidsPoems #HindiSongs #RainbowSongsForKids #KidsEntertainment #LearningWithFun #KidsVideos"},
+  {c:"Rainbow Songs For Kids",t:"📖✨ Learn A to Z Alphabet | Easy & Fun Learning Rhyme for Kids 🎶🔤",d:"🎉 Welcome to our fun and easy A to Z Alphabet Learning Rhyme! This video is specially made for kids to learn the English alphabet in the most simple and joyful way. 🌈✨ Through colorful animations, catchy rhymes, and playful music, children can easily recognize each letter, from A for Apple 🍎 to Z for Zebra 🦓. Perfect for preschoolers, toddlers, and kindergarten learners, this rhyme makes early learning engaging and full of fun. 🐣📚 #AlphabetSong #LearnABC #KidsLearning #ABCLearning #AlphabetRhyme #ABCSong #ABCLearningForKids #ToddlerLearning #KidsSongs #PreschoolLearning #KindergartenSongs #EducationalSongs #ABCLearningSong #NurseryRhyme #LearnABCTogether #KidsVideos #EasyAlphabetLearning"},
+  {c:"Rainbow Songs For Kids",t:"A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! 🚌🐘🦁🎨🥚✨",d:"A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! 🚌🐘🦁🎨🥚✨\nJoin 4 cheerful little friends and their adorable blue elephant driver on a magical adventure to the zoo! 🚌🐘\nFrom meeting dancing animals to discovering colorful surprise eggs 🥚✨, every rhyme brings joy, learning, and lots of fun!\nWatch them laugh, play, and explore in a world full of wonder, friendship, and imagination!\nPerfect for kids in the USA, UK, and around the world - fun, safe, and full of magical moments!\nLet the zoo magic begin! 🦁🐒🦜\n\n#ZooAdventure #KidsSongs #AnimatedRhymes #BlueElephant #LearningIsFun #MagicalZooTrip #UKKids #USAKids #NurseryRhymes #TrendingForKids #ViralKidsVideo #StorytimeFun #EducationalEntertainment #PreschoolLearning #KidsYouTube #WhimsicalAdventure #RhymesForChildren #3DAnimationForKids #KidsFunChannel #SafeForKids"},
+  {c:"emmys rhymes club TV",t:"Traktor Töff Töff 🚜 | Lustiges Kinderlied über den Bauernhof | Deutsches Kinderlied zum Mitsingen",d:"Willkommen zu Traktor Töff Töff - einem fröhlichen deutschen Kinderlied über den Bauernhof! 🚜🌾 Begleite den süßen roten Traktor und den freundlichen Bauern auf ein lustiges Abenteuer über Felder, durch Matsch und bis zum Sonnenuntergang. Dieses Lied ist perfekt zum Mitsingen, Tanzen und Lernen für Kleinkinder und Vorschulkinder. 🎵 Mit eingängiger Melodie 🌈 Bunte 3D-Animation 👶 Ideal für Kindergarten und Zuhause. #Traktor #Kinderlied #Kinderlieder #Bauernhof #Deutschlernen #Kleinkind #Kindergarten #Mitmachlied #NurseryRhymesGerman #GermanKidsSong #Lernvideo"},
+  {c:"emmys rhymes club TV",t:"Vegetables Song for Kids | Learn Vegetable Names | Nursery Rhyme 🥦🥕🍅 | Healthy Eating Song",d:"In this colorful 3D animated rhyme, friendly vegetables like Carrot, Tomato, Broccoli, Spinach, and Cucumber come to life, dancing and singing to teach little ones the importance of healthy eating. Perfect for preschool, kindergarten, and early learning! Fun and easy-to-remember melody, Bright 3D cartoon animation, Teaches healthy habits in a playful way. Educational Topics: Vegetable names and colors, Healthy eating habits."},
+  {c:"Tiny Star tunes TV",t:"🎉 Baby Coco and the Egg 🥚 || Red Toy Car 🚗✨👶",d:"Join Baby Coco in his bright yellow romper as he plays joyfully with a shiny red toy car in the sunny farmhouse yard. Surrounded by friendly animals, Coco giggles, claps, and shouts Coco-wow! as the car zooms across the grass. A fun, colorful, and magical farm adventure full of laughter and happiness for kids! 🎬💛 #BabyCoco #KidsCartoon #FarmhouseFun #ToyCarAdventure #AnimatedBaby #NurseryRhymes #KidsStory #CocoWow #BabyFun #kidsentertainment"},
+  {c:"Tiny Star tunes TV",t:"Wo ist denn mein Papa? ⭐ Lustiges & Einfaches Kinderlied zum Mitsingen | Deutsch Rhyme Song",d:"Entdecke das süße Kinderlied Wo ist denn mein Papa? - ein fröhlicher, einfacher Reim, perfekt zum Mitsingen für Vorschulkinder! Dieses Lied begleitet kleine Kinder auf einer liebevollen Suche nach Papa und endet in einer fröhlichen Wiedervereinigung. Ideal für Kindergarten, Vorschule oder zu Hause! #Kinderlied #DeutschFürKinder #Mitsingen #KindergartenLied #Vorschule #Familienlied #PapaLied #Kinderreime #Kindersong #LustigesKinderlied"},
+  {c:"Tiny Star tunes TV",t:"Fünf bunte Frösche 🐸🌈 Farben lernen | Kinderlied Deutsch",d:"Willkommen zu unserem fröhlichen Kinderlied Tanz, kleiner Frosch! Der kleine Frosch hüpft, dreht sich im Kreis und klatscht in die Hände! Dieses lustige Lied ist perfekt für Kleinkinder und Kindergartenkinder, zum Mitsingen, Tanzen und Lernen. Mit süßer Musik, bunten Animationen und einem tanzenden Frosch macht Lernen richtig Spaß! #Kinderlied #FroschLied #TanzKinderlied #KinderliederDeutsch #KindergartenLied #Mitmachlied #KinderReime #KinderSong #DeutschLernenKinder #LustigesKinderlied #Frosch #BabyLieder #KinderMusik #KinderAnimation #KinderVideo #FroschTanz #DeutschFürKinder"}
 ];
 
-var uploads = [
-  {
-    ch: "Verse Kids Tv",
-    title: "Five Colorful Elephants 🐘🌈 | Learn Colors Song for Kids & Toddlers 2024 | Fun 3D Cartoon",
-    desc: "🌈 Join five colorful little elephants in this happy 3D color song! They march, play, teach colors like red, blue, yellow, green, purple, pink. Fun for kids learning colors, friendship, teamwork. 👶 Perfect for toddlers, preschool, early education, family time. 🎵 Sing, clap, enjoy the parade! 👍 Like, share, subscribe for more kids songs. #LearnColorsSong #FiveElephantsRhyme #ColorLearningForKids #ToddlerColors2024 #PreschoolEducation #KidsCartoonSongs #ElephantColorParade #NurseryRhymesForBabies #3DKidsAnimation #EducationalColors #UKKidsLearning #USAToddlerSongs #BabyColorVideos #FunLearningSongs #KindergartenColors"
-  },
-  {
-    ch: "Verse Kids Tv",
-    title: "Baby Shark Family Dance 🐠 | Cute Ocean Nursery Song",
-    desc: "Sing and dance with Baby Shark and friends in this colorful UK-style nursery rhyme adventure! 🌊🦈 Fun music, happy sea animals, and playful learning for toddlers and preschool kids. #BabyShark #NurseryRhymes #KidsSongs #ToddlerSongs #KidsAnimation #CocomelonStyle"
-  },
-  {
-    ch: "Verse Kids Tv",
-    title: "Cute Animals Learn 123 🐮🔢 | Fun Counting Song for Toddlers | Farm Nursery Rhyme",
-    desc: "🐮🔢 Cute animals teach counting 1-3 on the farm! Fun sounds, colors, animations for kids learning numbers. Like, subscribe for more learning rhymes. #CountingSongToddlers #FarmCountingRhyme #KidsNumbers2024 #PreschoolAnimalSongs #ToddlerEducationVideos #3DFarmAnimation #BabyNumbersLearning Perfect for toddlers, preschool, early education. ✨ Visual math, animal fun. 🎵 Sing along! 👍 #EducationalNursery #UKPreschoolSongs #USAKidsCounting #Animal123 #FunForToddlers #KindergartenNumbers #LearnWithAnimals #SafeKidsSongs"
-  },
-  {
-    ch: "Rainbow Songs For Kids",
-    title: "Meri Gaiya || मेरी गैया आती है। || Kids favorite Hindi Rhymes || Rainbow 🌈 Songs for kids ||",
-    desc: "Welcome to Rainbow Songs for Kids! Enjoy our new rhyme, 'Meri Gaiya Ati Hai,' a delightful Hindi song celebrating the gentle arrival of our beloved cow, Gaiya. This charming nursery rhyme introduces young children to the warmth and simplicity of rural life, fostering a love for animals and nature. Join us in singing along and experiencing the joy of this traditional melody! Subscribe for more beautiful rhymes, songs, and educational videos for kids. #MeriGaiyaAtiHai #HindiRhymes #NurseryRhymes #KidsSongs #ChildrenSongs #KidsLearning #IndianCulture #AnimalRhymes #FarmAnimals #EducationalSongs #TraditionalSongs #KidsPoems #HindiSongs #RainbowSongsForKids #KidsEntertainment #LearningWithFun #KidsVideos"
-  },
-  {
-    ch: "Rainbow Songs For Kids",
-    title: "📘✨ Learn A to Z Alphabet | Easy & Fun Learning Rhyme for Kids 🎶🔤",
-    desc: "🎉 Welcome to our fun and easy A to Z Alphabet Learning Rhyme! 🅰️➡️🆉 This video is specially made for kids to learn the English alphabet in the most simple and joyful way. 🌈✨ Through colorful animations, catchy rhymes, and playful music, children can easily recognize each letter, from A for Apple 🍎 to Z for Zebra 🦓. Perfect for preschoolers, toddlers, and kindergarten learners, this rhyme makes early learning engaging and full of fun. 🐣📚 Great for: Alphabet recognition, Phonics introduction, Early childhood education, Fun classroom or home learning. Sing, dance, and learn with us as we explore the alphabet together! 🎶💡 #AlphabetSong #LearnABC #KidsLearning #ABCLearning #AlphabetRhyme #ABCSong #ABCLearningForKids #ToddlerLearning #KidsSongs #PreschoolLearning #KindergartenSongs #EducationalSongs #ABCLearningSong #NurseryRhyme #LearnABCTogether #KidsVideos #EasyAlphabetLearning"
-  },
-  {
-    ch: "Rainbow Songs For Kids",
-    title: "A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! 🚌🐘🦁🎨🥚✨",
-    desc: "A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! 🚌🐘🦁🎨🥚✨\nJoin 4 cheerful little friends and their adorable blue elephant driver on a magical adventure to the zoo! 🚌🐘\nFrom meeting dancing animals to discovering colorful surprise eggs 🥚✨, every rhyme brings joy, learning, and lots of fun!\nWatch them laugh, play, and explore in a world full of wonder, friendship, and imagination!\nPerfect for kids in the USA, UK, and around the world — fun, safe, and full of magical moments!\nLet the zoo magic begin! 🦁🐒🦜\n\n#ZooAdventure #KidsSongs #AnimatedRhymes #BlueElephant #LearningIsFun #MagicalZooTrip #UKKids #USAKids #NurseryRhymes #TrendingForKids #ViralKidsVideo #StorytimeFun #EducationalEntertainment #PreschoolLearning #KidsYouTube #WhimsicalAdventure #RhymesForChildren #3DAnimationForKids #KidsFunChannel #SafeForKids"
-  },
-  {
-    ch: "emmys rhymes club TV",
-    title: "Traktor Töff Töff 🚜 | Lustiges Kinderlied über den Bauernhof | Deutsches Kinderlied zum Mitsingen",
-    desc: "Willkommen zu „Traktor Töff Töff" – einem fröhlichen deutschen Kinderlied über den Bauernhof! 🚜🌾 Begleite den süßen roten Traktor und den freundlichen Bauern auf ein lustiges Abenteuer über Felder, durch Matsch und bis zum Sonnenuntergang. Dieses Lied ist perfekt zum Mitsingen, Tanzen und Lernen für Kleinkinder und Vorschulkinder. 🎵 Mit eingängiger Melodie 🌈 Bunte 3D-Animation 👶 Ideal für Kindergarten & Zuhause. #Traktor #Kinderlied #Kinderlieder #Bauernhof #Deutschlernen #LiedFürKinder #Kleinkind #Kindergarten #Mitmachlied #FahrzeugeFürKinder #NurseryRhymesGerman #GermanKidsSong #CartoonKinderlied #Lernvideo"
-  },
-  {
-    ch: "emmys rhymes club TV",
-    title: "Vegetables Song for Kids | Learn Vegetable Names | Nursery Rhyme 🥦🥕🍅 | Healthy Eating Song",
-    desc: "In this colorful 3D animated rhyme, friendly vegetables like Carrot, Tomato, Broccoli, Spinach, and Cucumber come to life, dancing and singing to teach little ones the importance of healthy eating. Perfect for preschool, kindergarten, and early learning! Fun and easy-to-remember melody, Bright 3D cartoon animation, Teaches healthy habits in a playful way. Educational Topics: Vegetable names and colors, Healthy eating habits."
-  },
-  {
-    ch: "Tiny Star tunes TV",
-    title: "🎉 Baby Coco and the Egg 🥚 || Red Toy Car 🚗✨👶",
-    desc: "Join Baby Coco 👶 in his bright yellow rumper as he plays joyfully with a shiny red toy car 🚗 in the sunny farmhouse yard 🌞🏡. Surrounded by friendly animals 🐄🐕🦆🐑, Coco giggles, claps, and shouts Coco-wow! 🌈 as the car zooms across the grass. A fun, colorful, and magical farm adventure full of laughter and happiness for kids! 🎶💛 #BabyCoco #KidsCartoon #FarmhouseFun #ToyCarAdventure #AnimatedBaby #NurseryRhymes #KidsStory #CocoWow #BabyFun #kidsentertainment"
-  },
-  {
-    ch: "Tiny Star tunes TV",
-    title: "Wo ist denn mein Papa? ⭐ Lustiges & Einfaches Kinderlied zum Mitsingen | Deutsch Rhyme Song",
-    desc: "Entdecke das süße Kinderlied Wo ist denn mein Papa? – ein fröhlicher, einfacher Reim, perfekt zum Mitsingen für Vorschulkinder! 🐥✨ Dieses Lied begleitet kleine Kinder auf einer liebevollen Suche nach Papa und endet in einer fröhlichen Wiedervereinigung. Ideal für Kindergarten, Vorschule oder zu Hause! #Kinderlied #DeutschFürKinder #Mitsingen #KindergartenLied #Vorschule #Familienlied #PapaLied #Kinderreime #Kindersong #LustigesKinderlied #ReimFürKinder #KinderRhyme #SingenMitKindern #FröhlichesKinderlied #KinderUnterhaltung"
-  },
-  {
-    ch: "Tiny Star tunes TV",
-    title: "Fünf bunte Frösche 🐸🌈 Farben lernen | Kinderlied Deutsch",
-    desc: "Willkommen zu unserem fröhlichen Kinderlied Tanz, kleiner Frosch! 🐸🎶 Der kleine Frosch hüpft, dreht sich im Kreis und klatscht in die Hände! 💃👏 Dieses lustige Lied ist perfekt für Kleinkinder und Kindergartenkinder, zum Mitsingen, Tanzen und Lernen. Mit süßer Musik, bunten Animationen und einem tanzenden Frosch macht Lernen richtig Spaß! 🌈✨ #Kinderlied #FroschLied #TanzKinderlied #KinderliederDeutsch #KindergartenLied #Mitmachlied #KinderReime #KinderSong #DeutschLernenKinder #LustigesKinderlied #Frosch #BabyLieder #KinderMusik #KinderAnimation #KinderVideo #SingMit #HüpfenUndTanzen #FroschTanz #DeutschFürKinder"
-  }
-];
-
-// Store raw strings by index — never put them in HTML attributes
-var store = {};
+var S = {};
 
 function esc(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function updateThemeBtn() {
+  var isDark = document.documentElement.classList.contains("dark");
+  document.getElementById("tb").textContent = isDark ? "🌙" : "☀️";
 }
 
 function render(q) {
   q = (q || "").trim().toLowerCase();
-  var wrap = document.getElementById("channels");
+  var wrap = document.getElementById("chs");
   var html = "";
   var total = 0;
+  S = {}; // clear on every render
 
-  channels.forEach(function(ch) {
-    var vids = uploads.filter(function(u) {
-      return u.ch === ch.name && (!q ||
-        u.title.toLowerCase().indexOf(q) > -1 ||
-        u.desc.toLowerCase().indexOf(q) > -1 ||
-        ch.name.toLowerCase().indexOf(q) > -1
-      );
-    });
-    if (!vids.length) return;
+  for (var i = 0; i < CH.length; i++) {
+    var ch = CH[i];
+    var vids = [];
+    for (var j = 0; j < UP.length; j++) {
+      var u = UP[j];
+      if (u.c === ch.n && (!q || u.t.toLowerCase().indexOf(q) > -1 || u.d.toLowerCase().indexOf(q) > -1 || ch.n.toLowerCase().indexOf(q) > -1)) {
+        vids.push({ u: u, j: j });
+      }
+    }
+    if (!vids.length) continue;
     total += vids.length;
+    var rows = "";
+    for (var k = 0; k < vids.length; k++) {
+      var v = vids[k];
+      var idx = v.j;
+      S["t" + idx] = v.u.t;
+      S["d" + idx] = v.u.d;
+      S["a" + idx] = v.u.t + "\n\n" + v.u.d;
 
-    var rows = vids.map(function(u) {
-      var idx = uploads.indexOf(u);
-      store["t" + idx] = u.title;
-      store["d" + idx] = u.desc;
-      store["a" + idx] = u.title + "\n\n" + u.desc;
+      var showMoreBtn = v.u.d.length > 140
+        ? '<button class="dtg" onclick="tog(' + idx + ')">Show more</button>'
+        : '';
 
-      var descId = "desc" + idx;
-      return '<div class="vrow">' +
-        '<span class="live-badge"><span class="live-dot"></span>Live</span>' +
-        '<p class="vtitle">' + esc(u.title) + '</p>' +
-        '<p class="desc-text" id="' + descId + '">' + esc(u.desc) + '</p>' +
-        '<button class="desc-toggle" onclick="toggleDesc(' + idx + ')">Show more</button>' +
-        '<div class="btn-row">' +
-          '<button class="btn btn-primary" onclick="doCopy(' + idx + ',\'t\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy Title</button>' +
-          '<button class="btn btn-secondary" onclick="doCopy(' + idx + ',\'d\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Copy Desc</button>' +
-          '<button class="btn btn-ghost" onclick="doCopy(' + idx + ',\'a\')">Copy All</button>' +
+      rows += '<div class="vr">' +
+        '<span class="lb"><span class="ld"></span>Live</span>' +
+        '<p class="vt">' + esc(v.u.t) + '</p>' +
+        '<p class="dt" id="d' + idx + '">' + esc(v.u.d) + '</p>' +
+        showMoreBtn +
+        '<div class="br">' +
+          '<button class="btn bp" onclick="cp(' + idx + ',\'t\')">' +
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>' +
+            'Copy Title</button>' +
+          '<button class="btn bs" onclick="cp(' + idx + ',\'d\')">' +
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+            'Copy Desc</button>' +
+          '<button class="btn bg" onclick="cp(' + idx + ',\'a\')">Copy All</button>' +
         '</div>' +
       '</div>';
-    }).join("");
-
-    html +=
-      '<div class="card">' +
-        '<div class="card-head">' +
-          '<div class="ch-avatar">' + ch.emoji + '</div>' +
-          '<div><div class="ch-name">' + esc(ch.name) + '</div>' +
-          '<div class="ch-subs">' + ch.subs + ' subscribers</div></div>' +
-          '<span class="ch-count">' + vids.length + ' video' + (vids.length > 1 ? "s" : "") + '</span>' +
-        '</div>' +
-        rows +
-      '</div>';
-  });
-
+    }
+    html += '<div class="card">' +
+      '<div class="ch">' +
+        '<div class="av">' + ch.e + '</div>' +
+        '<div><div class="cn">' + esc(ch.n) + '</div><div class="cs">' + ch.s + ' subscribers</div></div>' +
+        '<span class="cc">' + vids.length + ' video' + (vids.length > 1 ? "s" : "") + '</span>' +
+      '</div>' + rows + '</div>';
+  }
   wrap.innerHTML = html;
-  document.getElementById("count-badge").textContent = total + " video" + (total !== 1 ? "s" : "");
-  document.getElementById("no-results").style.display = total === 0 ? "block" : "none";
+  document.getElementById("cb").textContent = total + " video" + (total !== 1 ? "s" : "");
+  document.getElementById("nr").style.display = total === 0 ? "block" : "none";
 }
 
-function toggleDesc(idx) {
-  var el = document.getElementById("desc" + idx);
-  var btn = el.nextElementSibling;
+function tog(idx) {
+  var el = document.getElementById("d" + idx);
+  if (!el) return;
   var open = el.classList.toggle("open");
-  btn.textContent = open ? "Show less" : "Show more";
-}
-
-function doCopy(idx, type) {
-  var text = store[type + idx] || "";
-  var labels = { t: "Title copied!", d: "Description copied!", a: "All copied!" };
-  var icons  = { t: "✅", d: "📋", a: "🎉" };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(function() {
-      toast(icons[type], labels[type]);
-    }).catch(function() { fallbackCopy(text, icons[type], labels[type]); });
-  } else {
-    fallbackCopy(text, icons[type], labels[type]);
+  var btn = el.nextElementSibling;
+  if (btn && btn.classList.contains("dtg")) {
+    btn.textContent = open ? "Show less" : "Show more";
   }
 }
 
-function fallbackCopy(text, icon, label) {
+function cp(idx, type) {
+  var text = S[type + idx] || "";
+  var labels = { t: "Title copied!", d: "Description copied!", a: "All copied!" };
+  var icons = { t: "✅", d: "📋", a: "🎉" };
+  function done() { toast(icons[type], labels[type]); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(function () { fb(text, done); });
+  } else {
+    fb(text, done);
+  }
+}
+
+function fb(text, cb) {
   var ta = document.createElement("textarea");
   ta.value = text;
-  ta.style.cssText = "position:fixed;left:-9999px;top:-9999px;opacity:0;font-size:16px";
+  ta.style.cssText = "position:fixed;left:-9999px;top:0;font-size:16px;opacity:0";
   document.body.appendChild(ta);
-  ta.focus(); ta.select();
-  try { document.execCommand("copy"); toast(icon, label); } catch(e) {}
+  ta.focus();
+  ta.select();
+  try { document.execCommand("copy"); cb(); } catch (e) {}
   document.body.removeChild(ta);
 }
 
 function toast(icon, msg) {
-  var wrap = document.getElementById("toast-wrap");
+  var w = document.getElementById("tw");
   var t = document.createElement("div");
   t.className = "toast";
-  t.innerHTML = "<span>" + icon + "</span>" + msg;
-  wrap.appendChild(t);
-  setTimeout(function() {
-    t.style.transition = "opacity .2s, transform .2s";
+  t.textContent = icon + " " + msg;
+  w.appendChild(t);
+  setTimeout(function () {
+    t.style.transition = "opacity .2s,transform .2s";
     t.style.opacity = "0";
     t.style.transform = "translateY(6px)";
-    setTimeout(function() { t.remove(); }, 220);
+    setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 220);
   }, 1800);
 }
 
-// Search
-document.getElementById("search-input").addEventListener("input", function() {
+document.getElementById("si").addEventListener("input", function () {
   render(this.value);
 });
 
-// Theme toggle — HTML already has class="dark" so dark is default
-document.getElementById("theme-btn").addEventListener("click", function() {
-  var isDark = document.documentElement.classList.toggle("dark");
-  try { localStorage.setItem("nx-theme", isDark ? "dark" : "light"); } catch(e) {}
+document.getElementById("tb").addEventListener("click", function () {
+  var d = document.documentElement.classList.toggle("dark");
+  try { localStorage.setItem("nx", "d" + (d ? "1" : "0")); } catch (e) {}
+  updateThemeBtn();
 });
 
-// Restore preference only if user explicitly chose light before
 try {
-  if (localStorage.getItem("nx-theme") === "light") {
+  if (localStorage.getItem("nx") === "d0") {
     document.documentElement.classList.remove("dark");
   }
-} catch(e) {}
-
+} catch (e) {}
+updateThemeBtn();
 render();
 </script>
 </body>
