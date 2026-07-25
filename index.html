@@ -613,16 +613,8 @@ const uploads = [
   {
     channel:"Rainbow Songs For Kids",
     status:"live",
-    title:"A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! 🚌🐘🦁🎨🥚✨",
-    thumbnail:"zoo-thumb",
-    desc:`A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! 🚌🐘🦁🎨🥚✨
-Join 4 cheerful little friends and their adorable blue elephant driver on a magical adventure to the zoo! 🚌🐘
-From meeting dancing animals to discovering colorful surprise eggs 🥚✨, every rhyme brings joy, learning, and lots of fun!
-Watch them laugh, play, and explore in a world full of wonder, friendship, and imagination!
-Perfect for kids in the USA, UK, and around the world — fun, safe, and full of magical moments!
-Let the zoo magic begin! 🦁🐒🦜
-
-#ZooAdventure #KidsSongs #AnimatedRhymes #BlueElephant #LearningIsFun #MagicalZooTrip #UKKids #USAKids #NurseryRhymes #TrendingForKids #ViralKidsVideo #StorytimeFun #EducationalEntertainment #PreschoolLearning #KidsYouTube #WhimsicalAdventure #RhymesForChildren #3DAnimationForKids #KidsFunChannel #SafeForKids`
+    title:"A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! \uD83D\uDE8C\uD83D\uDC18\uD83E\uDD81\uD83C\uDFA8\uD83E\uDD5A\u2728",
+    desc:"A Magical Zoo Adventure with 4 Little Friends and a Blue Elephant! \uD83D\uDE8C\uD83D\uDC18\uD83E\uDD81\uD83C\uDFA8\uD83E\uDD5A\u2728\nJoin 4 cheerful little friends and their adorable blue elephant driver on a magical adventure to the zoo! \uD83D\uDE8C\uD83D\uDC18\nFrom meeting dancing animals to discovering colorful surprise eggs \uD83E\uDD5A\u2728, every rhyme brings joy, learning, and lots of fun!\nWatch them laugh, play, and explore in a world full of wonder, friendship, and imagination!\nPerfect for kids in the USA, UK, and around the world \u2014 fun, safe, and full of magical moments!\nLet the zoo magic begin! \uD83E\uDD81\uD83D\uDC12\uD83E\uDD9C\n\n#ZooAdventure #KidsSongs #AnimatedRhymes #BlueElephant #LearningIsFun #MagicalZooTrip #UKKids #USAKids #NurseryRhymes #TrendingForKids #ViralKidsVideo #StorytimeFun #EducationalEntertainment #PreschoolLearning #KidsYouTube #WhimsicalAdventure #RhymesForChildren #3DAnimationForKids #KidsFunChannel #SafeForKids"
   },
 
   // emmys rhymes club TV
@@ -661,9 +653,8 @@ Let the zoo magic begin! 🦁🐒🦜
 ];
 
 // ── THUMBNAIL DATA ──
-// The uploaded zoo thumbnail is embedded as a base64 placeholder visual cue.
-// In production, replace ZOO_THUMB_SRC with an actual hosted URL.
-const ZOO_THUMB_SRC = '/mnt/user-data/uploads/6b8f7d39-9759-43eb-b829-35997dd222ba.jpeg';
+// Replace ZOO_THUMB_SRC with the actual hosted YouTube thumbnail URL when available.
+const ZOO_THUMB_SRC = '';
 
 // ── HELPERS ──
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -746,9 +737,7 @@ function render(filter){
 function videoRow(u, uid){
   const descId = 'desc-' + uid.replace(/\s/g,'-');
   const allText = u.title + '\n\n' + u.desc;
-  const thumb = u.thumbnail === 'zoo-thumb'
-    ? `<div class="thumb-wrap"><img src="${ZOO_THUMB_SRC}" alt="thumbnail" onerror="this.parentNode.style.display='none'"></div>`
-    : '';
+  const thumb = '';
 
   return `
     <div class="video-row">
@@ -826,10 +815,10 @@ searchMobile.addEventListener('input', (e) => {
   render(e.target.value);
 });
 
-// ── THEME ──
+// ── THEME ── (dark by default always)
 (function(){
   const saved = localStorage.getItem('nx-theme');
-  if(saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+  if(saved !== 'light'){
     document.documentElement.classList.add('dark');
   }
 })();
